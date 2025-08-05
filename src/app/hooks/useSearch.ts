@@ -49,6 +49,20 @@ const translateQueryToApiParams = (
   }
 };
 
+const getEndpointPath = (entityType: EntityKind): string => {
+  switch (entityType) {
+    case "PROCESS":
+      return "processes";
+    case "PRODUCT":
+      return "products";
+    case "WORKFLOW":
+      return "workflows";
+    case "SUBSCRIPTION":
+    default:
+      return "subscriptions";
+  }
+};
+
 export const useSearch = (query: Query | string, entityType: EntityKind) => {
   const [results, setResults] = useState<AnySearchResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -69,7 +83,8 @@ export const useSearch = (query: Query | string, entityType: EntityKind) => {
 
       setLoading(true);
       try {
-        const endpoint = `http://127.0.0.1:8081/api/search/${entityType.toLowerCase()}s`;
+        const endpointPath = getEndpointPath(entityType);
+        const endpoint = `http://127.0.0.1:8081/api/search/${endpointPath}`;
         const response = await fetch(endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },

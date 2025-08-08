@@ -30,11 +30,11 @@ export function FilterDisplay({ parameters }: FilterDisplayProps) {
     if (
       typeof value === "object" &&
       value !== null &&
-      ("from" in value || "from_" in value) &&
-      "to" in value
+      ("start" in value || "end" in value) &&
+      "end" in value
     ) {
-      const fromDate = value.from || value.from_;
-      return `${fromDate} ... ${value.to}`;
+      const fromDate = value.start || value.end;
+      return `${fromDate} ... ${value.end}`;
     }
 
     return String(value);
